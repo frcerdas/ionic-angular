@@ -1,0 +1,9 @@
+<ion-card (mouseenter)="startAnimationOnHover()" (mouseleave)="startAnimationOnHover()">
+  <ion-card-header>
+    <img src="https://picsum.photos/200" alt="titulo">
+  </ion-card-header>
+
+  <p class="grid-product-title">{{gridProductTitle}}</p>
+  <p class="grid-product-price">{{gridProductPrice | currency:'CLP':'symbol':'1.0-0' }}</p>
+  <a [routerLink]="['/product']" [queryParams]="{pageProductTitle: gridProductTitle, pageProductPrice: gridProductPrice}">Ver producto</a>
+</ion-card>

@@ -1,0 +1,49 @@
+<ion-content [fullscreen]="true">
+  <div class="flex-center">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Iniciar sesión</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-grid>
+          <ion-row>
+            <ion-item class="ion-no-padding">
+              <ion-input
+                label="E-mail"
+                type="email"
+                labelPlacement="floating"
+                placeholder="nombre@correo.com"
+                [(ngModel)]="email"
+                name="email"
+                required
+              ></ion-input>
+            </ion-item>
+            <p *ngIf="emailError" class="error-message">Correo electrónico no válido</p>
+          </ion-row>
+          <ion-row class="ion-padding-bottom">
+            <ion-item class="ion-no-padding">
+              <ion-input
+                label="Contraseña"
+                type="password"
+                labelPlacement="floating"
+                placeholder="Ingresa tu contraseña"
+                [(ngModel)]="password"
+                name="password"
+                required
+                minlength="8"
+              ></ion-input>
+            </ion-item>
+            <p *ngIf="passwordError" class="error-message">La contraseña debe tener al menos 8 caracteres</p>
+          </ion-row>
+          <ion-row class="ion-padding-bottom">
+            <ion-button (click)="login()">Ingresar</ion-button>
+          </ion-row>
+          <ion-row>
+            <a href="#">Olvidé mi contraseña</a>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>
