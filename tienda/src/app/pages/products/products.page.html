@@ -2,20 +2,12 @@
   <ion-content class="ion-padding">
     <h2>Bienvenido</h2>
     <p>Acá podrás encontrar los últimos productos y novedades.</p>
-    <p>Tenemos más de 300 productos, nuestra </p>
+    <p>Tenemos más de 300 productos.</p>
     <ion-grid>
-      <ion-row>
-        <app-grid-product [gridProductTitle]="'Gargantilla de plata'" [gridProductPrice]=16990></app-grid-product>
-        <app-grid-product [gridProductTitle]="'Gato de yeso'" [gridProductPrice]=21990></app-grid-product>
-      </ion-row>
-      <ion-row>
-        <app-grid-product [gridProductTitle]="'Kilo de arroz'" [gridProductPrice]=1590></app-grid-product>
-        <app-grid-product [gridProductTitle]="'Bavarois de fruta'" [gridProductPrice]=3500></app-grid-product>
-      </ion-row>
-      <ion-row>
-        <app-grid-product [gridProductTitle]="'Helado Sahnne Nuss 1lt'" [gridProductPrice]=5990></app-grid-product>
-        <app-grid-product [gridProductTitle]="'Vinilo rojo'" [gridProductPrice]=22990></app-grid-product>
-      </ion-row>
+      <ng-container *ngFor="let producto of productos">
+        <!-- Producto en la posición actual -->
+        <app-grid-product [gridProductTitle]="producto.nombre" [gridProductPrice]="producto.precio"></app-grid-product>
+      </ng-container>
     </ion-grid>
     <h2>Encuéntranos</h2>
     <app-mapa></app-mapa>

@@ -1,0 +1,14 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>carrito</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let item of carritoItems">
+      <!-- Puedes personalizar cómo se muestra cada elemento del carrito aquí -->
+      Cantidad: {{ item.cantidad }}, Producto ID: {{ item.id_producto }}, Fecha/Hora: {{ item.fecha_hora }}
+    </ion-item>
+  </ion-list>
+</ion-content>

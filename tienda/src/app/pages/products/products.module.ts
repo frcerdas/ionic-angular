@@ -10,13 +10,15 @@ import { ProductsPage } from './products.page';
 import { HeaderComponent } from 'src/app/components/header/header.component';
 import { MapaComponent } from 'src/app/components/mapa/mapa.component';
 import { GridProductComponent } from 'src/app/components/grid-product/grid-product.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ProductsPageRoutingModule
+    ProductsPageRoutingModule,
+    HttpClientModule
   ],
   declarations: [
     ProductsPage,
