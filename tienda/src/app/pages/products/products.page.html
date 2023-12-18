@@ -1,14 +1,19 @@
-  <app-header [pageTitle]="'Productos'"></app-header>
-  <ion-content class="ion-padding">
-    <h2>Bienvenido</h2>
-    <p>Acá podrás encontrar los últimos productos y novedades.</p>
-    <p>Tenemos más de 300 productos.</p>
-    <ion-grid>
-      <ng-container *ngFor="let producto of productos">
-        <!-- Producto en la posición actual -->
-        <app-grid-product [gridProductTitle]="producto.nombre" [gridProductPrice]="producto.precio"></app-grid-product>
-      </ng-container>
-    </ion-grid>
-    <h2>Encuéntranos</h2>
-    <app-mapa></app-mapa>
-  </ion-content>
+<app-header [pageTitle]="'Productos'"></app-header>
+<ion-content class="ion-padding">
+  <h2>Bienvenido</h2>
+  <p>Acá podrás encontrar los últimos productos y novedades.</p>
+  <p>Tenemos más de 300 productos.</p>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12" size-sm="6" size-md="4" size-lg="3" *ngFor="let producto of productos">
+        <app-grid-product
+          [gridProductTitle]="producto.nombre"
+          [gridProductPrice]="producto.precio"
+          (productSelected)="verDetalleProducto(producto)"
+        ></app-grid-product>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <h2>Encuéntranos</h2>
+  <app-mapa></app-mapa>
+</ion-content>

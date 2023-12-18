@@ -1,14 +1,53 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>carrito</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-menu contentId="main-content" type="overlay">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Bienvenido</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content class="ion-padding">
+    <ion-list>
+      <ion-item routerLink="/" (click)="closeMenu()">
+        <ion-label>Inicio</ion-label>
+      </ion-item>
+      <ion-item routerLink="/products" (click)="closeMenu()">
+        <ion-label>Productos</ion-label>
+      </ion-item>
+      <ion-item routerLink="/perfil" (click)="closeMenu()">
+        <ion-label>Editar perfil</ion-label>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
 
-<ion-content>
-  <ion-list>
-    <ion-item *ngFor="let item of carritoItems">
-      <!-- Puedes personalizar cómo se muestra cada elemento del carrito aquí -->
-      Cantidad: {{ item.cantidad }}, Producto ID: {{ item.id_producto }}, Fecha/Hora: {{ item.fecha_hora }}
+<ion-content class="ion-padding">
+
+  <ion-list *ngIf="carritoItems.length > 0; else emptyCart">
+    <ion-item>
+      <ion-label>
+        <ion-grid>
+          <ion-row class="header-row">
+            <ion-col>Cantidad</ion-col>
+            <ion-col>Nombre del Producto</ion-col>
+            <ion-col>Precio</ion-col>
+            <ion-col>Acciones</ion-col>
+          </ion-row>
+          <ion-row *ngFor="let item of carritoItems">
+            <ion-col>{{ item.cantidad }}</ion-col>
+            <ion-col>{{ item.nombre_producto }}</ion-col>
+            <ion-col>{{ item.precio | currency:'':'symbol':'1.0-0' }} CLP</ion-col>
+            <ion-col>
+              <ion-button color="danger" (click)="borrarItem(item.id_transaccion)">Borrar</ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-label>
     </ion-item>
   </ion-list>
+
+  <ng-template #emptyCart>
+    <p>No hay elementos en el carrito.</p>
+  </ng-template>
+
+  <ion-button color="danger" (click)="borrarCarrito()">Borrar Carrito</ion-button>
+
 </ion-content>

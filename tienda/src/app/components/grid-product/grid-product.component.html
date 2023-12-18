@@ -5,5 +5,5 @@
 
   <p class="grid-product-title">{{gridProductTitle}}</p>
   <p class="grid-product-price">{{gridProductPrice | currency:'CLP':'symbol':'1.0-0' }}</p>
-  <a [routerLink]="['/product']" [queryParams]="{pageProductTitle: gridProductTitle, pageProductPrice: gridProductPrice}">Ver producto</a>
+  <a [routerLink]="['/product']" [queryParams]="{ nombre: gridProductTitle, precio: gridProductPrice }">Ver producto</a>
 </ion-card>

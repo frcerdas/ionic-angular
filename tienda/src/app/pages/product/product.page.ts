@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SQLite, SQLiteObject } from '@awesome-cordova-plugins/sqlite';
-import { Platform } from '@ionic/angular';
+import { Platform, MenuController } from '@ionic/angular';
 import { Router } from '@angular/router';
 
 @Component({
@@ -13,12 +13,13 @@ export class ProductPage implements OnInit {
 
   pageProductTitle: string = 'Producto';
   pageProductPrice: number = 0;
-  idProducto: number = 0; // Initialize the property
+  idProducto: number = 0;
 
   constructor(
     private route: ActivatedRoute,
     private platform: Platform,
-    private router: Router
+    private router: Router,
+    private menuController: MenuController
   ) {
     this.platform.ready().then(() => {
       this.createDatabase();
@@ -27,44 +28,54 @@ export class ProductPage implements OnInit {
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
-      this.pageProductTitle = params['pageProductTitle'] || 'Producto';
-      this.pageProductPrice = parseFloat(params['pageProductPrice']) || 0;
-      this.idProducto = parseInt(params['idProducto']) || 0;
+      this.pageProductTitle = params['nombre'] || 'Producto';
+      const precioString = String(params['precio']); // Asegúrate de que sea una cadena
+      this.pageProductPrice = isFinite(Number(precioString)) ? parseFloat(precioString) : 0;
+      console.log('Precio obtenido de params:', this.pageProductPrice);
+      this.idProducto = parseInt(params['id_producto']) || 0;
     });
   }
 
-  createDatabase() {
-    SQLite.create({
-      name: 'mydatabase.db',
-      location: 'default',
-    })
-      .then((db: SQLiteObject) => {
-        if (db) {
-          db.executeSql('CREATE TABLE IF NOT EXISTS carrito (cantidad INTEGER, id_producto INTEGER, fecha_hora TEXT)', [])
-            .then(() => console.log('Tabla creada'))
-            .catch(e => console.error('Error al crear la tabla', e));
-        } else {
-          console.error('Error: La base de datos no se creó correctamente.');
-        }
-      })
-      .catch(e => console.error('Error al abrir la base de datos', e));
+  async createDatabase() {
+    try {
+      const db: SQLiteObject = await SQLite.create({
+        name: 'mydatabase.db',
+        location: 'default',
+      });
+
+      await db.executeSql('CREATE TABLE IF NOT EXISTS carrito (id_transaccion INTEGER PRIMARY KEY AUTOINCREMENT, id_producto INTEGER, fecha_hora TEXT)', []);
+    } catch (e) {
+      console.error('Error al abrir/crear la base de datos', e);
+    }
   }
 
+  async agregarAlCarrito() {
+    try {
+      const db: SQLiteObject = await SQLite.create({
+        name: 'mydatabase.db',
+        location: 'default',
+      });
 
-  agregarAlCarrito() {
-    SQLite.create({
-      name: 'mydatabase.db',
-      location: 'default',
-    })
-      .then((db: SQLiteObject) => {
-        db.executeSql('INSERT INTO carrito (cantidad, id_producto, fecha_hora) VALUES (?, ?, ?)',
-          [1, this.idProducto, new Date().toISOString()])
-          .then(() => {
-            console.log('Producto añadido al carrito');
-            this.router.navigate(['/carrito']); // Redirige a la página /carrito
-          })
-          .catch(e => console.error('Error al añadir producto al carrito', e));
-      })
-      .catch(e => console.error('Error al abrir la base de datos', e));
+      const timestamp = new Date().toISOString();
+      const result = await db.executeSql('INSERT INTO carrito (id_producto, fecha_hora) VALUES (?, ?)',
+        [this.idProducto, timestamp]);
+
+      const idTransaccion = result.insertId; // Retrieve the auto-generated id_transaccion
+
+      console.log('Producto añadido al carrito con id_transaccion:', idTransaccion);
+      this.router.navigate(['/carrito']); // Redirect to the /carrito page
+    } catch (e) {
+      console.error('Error al añadir producto al carrito', e);
+    } finally {
+      this.closeMenu();  // Close the menu after adding the product to the cart
+    }
+  }
+
+  closeMenu() {
+    this.menuController.close();
+  }
+
+  openMenu() {
+    this.menuController.open();
   }
 }

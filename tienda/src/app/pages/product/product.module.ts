@@ -16,8 +16,10 @@ import { MenuController } from '@ionic/angular';
     IonicModule,
     ProductPageRoutingModule
   ],
+  exports: [],
   providers: [MenuController],
   declarations: [
-    ProductPage]
+    ProductPage
+  ]
 })
 export class ProductPageModule {}
